@@ -1,17 +1,32 @@
 @rootURL = https://localhost:7200
+@token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia29yaXIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImIxZTEwNmQ5LWVhZjMtNDM4Mi0yMTU2LTA4ZGYzNDFmZmQ2YSIsImV4cCI6MTc5MzEyNzk1OSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJhdWQiOiJhdXRoZW50aWNhdGlvblVzZXJzIn0.5O-Fvm1pjAZzYt2zYdptl4uEg7nGkX2HVPGpa9TO4IGy8XxQdHQVFeECO_pRCmrAcKsr3jM8YZvOpjWNJFp4ig
+
 
 POST {{rootURL}}/api/Auth/register
 Content-Type: application/json
 {
-  "username": "kelvin",
-  "password": "lenovo112"
+  "username": "kelvinn",
+  "password": "lenovo112",
+  "role": "Admin"
 }
 
 ###
 
+
 POST {{rootURL}}/api/Auth/login
 Content-Type: application/json
 {
-  "username": "kelvin",
+  "username": "kelvinn",
   "password": "lenovo112"
 }
+
+###
+GeT {{rootURL}}/api/Auth
+Accept: application/json
+Authorization: Bearer {{token}}
+# Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia29yaXIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImIxZTEwNmQ5LWVhZjMtNDM4Mi0yMTU2LTA4ZGYzNDFmZmQ2YSIsImV4cCI6MTc5MzEyNzk1OSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJhdWQiOiJhdXRoZW50aWNhdGlvblVzZXJzIn0.5O-Fvm1pjAZzYt2zYdptl4uEg7nGkX2HVPGpa9TO4IGy8XxQdHQVFeECO_pRCmrAcKsr3jM8YZvOpjWNJFp4ig
+
+###
+GET {{rootURL}}/api/Auth/admin-only
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2VsdmlubiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZDdmNmM4M2MtMjdjNS00ZTUzLTNjMzgtMDhkZjM0MzdhNTJiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3OTMxMzAxODcsImlzcyI6ImF1dGhlbnRpY2F0aW9uIiwiYXVkIjoiYXV0aGVudGljYXRpb25Vc2VycyJ9.wlOrLVCoWfZXIjV8o6ZS811DoMMUAKcADnZJ52fr-KxBGnoBTIl3tFvI1HoPZwpZm9WH2Jj1B6-BGZasK_iiOw

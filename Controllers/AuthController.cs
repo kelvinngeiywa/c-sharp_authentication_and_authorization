@@ -1,5 +1,7 @@
 ﻿using Auth.Models;
 using Auth.Models.DTOs;
+using Auth.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,57 +14,85 @@ namespace Auth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IConfiguration configuration) : ControllerBase
+    public class AuthController(IUser _user) : ControllerBase
     {
-        public static User user = new();
-        [HttpPost("register")]
-        public ActionResult<User> RegisterUser(UserDTO newUser)
-        {
-            var hashedPassword = new PasswordHasher<User>().HashPassword(user, newUser.Password);
+        //[HttpPost("register")]
+        //public async Task<ActionResult<User>> RegisterUser(UserDTO newUser)
+        //{
+        //    var addedUser= new User{ 
+        //        Username=newUser.Username,
+        //        PasswordHash=newUser.Password
+        //    };
+        //    var user = await _user.RegisterUserAsync(addedUser);
 
-            user.Username= newUser.Username;
-            user.PasswordHash=hashedPassword;
+        //    if(user is null)
+        //    {
+        //        return BadRequest("Username already exists");
+        //    }
+
+        //    return Ok(user);
+
+        //}
+        [HttpPost("register")]
+        public async Task<ActionResult<User>> RegisterUser(UserDTO newUser)
+        {
+          
+            var user = await _user.RegisterUserAsync(newUser);
+
+            if (user is null)
+            {
+                return BadRequest("Username already exists");
+            }
 
             return Ok(user);
 
         }
 
         [HttpPost("login")]
-        public ActionResult<string> Login(UserDTO loginrequest)
+        public async Task<ActionResult<string>> Login(UserDTO loginrequest)
         {
-            if(user.Username != loginrequest.Username)
+            var userToken= await _user.LoginUserAsync(loginrequest);
+            if (userToken is null)
             {
-                return BadRequest("Username not found");
+                return BadRequest("Invalid username or password");
             }
-            if(new PasswordHasher<User>().VerifyHashedPassword(user,user.PasswordHash,loginrequest.Password) == PasswordVerificationResult.Failed)
-            {
-                return BadRequest("Password is incorrect");
-            }
-
-            string token = CreateToken(user);
-            return Ok(token);
+            return Ok(userToken);
         }
 
-        private string CreateToken(User user)
+        [Authorize]
+        [HttpGet]
+        public ActionResult<string> AuthenticatedUsersOnly()
         {
-            var claims = new List<Claim> 
-            { 
-                new Claim(ClaimTypes.Name,user.Username)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Token")!));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
-
-            var tokenDescriptor = new JwtSecurityToken(
-                issuer: configuration.GetValue<string>("Jwt:Issuer"),
-                audience:configuration.GetValue<string>("Jwt:Audience"),
-                claims:claims,
-                expires:DateTime.UtcNow.AddHours(5),
-                signingCredentials:creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+            return Ok("You are authenticated!!");
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin-only")]
+        public ActionResult<string> AuthorizedOnly()
+        {
+            return Ok("You are authorised to access this!!");
+        }
+
+        //private string CreateToken(User user)
+        //{
+        //    var claims = new List<Claim> 
+        //    { 
+        //        new Claim(ClaimTypes.Name,user.Username)
+        //    };
+
+        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Token")!));
+
+        //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+        //    var tokenDescriptor = new JwtSecurityToken(
+        //        issuer: configuration.GetValue<string>("Jwt:Issuer"),
+        //        audience:configuration.GetValue<string>("Jwt:Audience"),
+        //        claims:claims,
+        //        expires:DateTime.UtcNow.AddHours(5),
+        //        signingCredentials:creds
+        //    );
+
+        //    return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+        //}
     }
 }
