@@ -3,12 +3,16 @@ using Auth.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Auth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController(IConfiguration configuration) : ControllerBase
     {
         public static User user = new();
         [HttpPost("register")]
@@ -35,8 +39,30 @@ namespace Auth.Controllers
                 return BadRequest("Password is incorrect");
             }
 
-            string token = "Success!!";
+            string token = CreateToken(user);
             return Ok(token);
+        }
+
+        private string CreateToken(User user)
+        {
+            var claims = new List<Claim> 
+            { 
+                new Claim(ClaimTypes.Name,user.Username)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Token")!));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+            var tokenDescriptor = new JwtSecurityToken(
+                issuer: configuration.GetValue<string>("Jwt:Issuer"),
+                audience:configuration.GetValue<string>("Jwt:Audience"),
+                claims:claims,
+                expires:DateTime.UtcNow.AddHours(5),
+                signingCredentials:creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
     }
 }
