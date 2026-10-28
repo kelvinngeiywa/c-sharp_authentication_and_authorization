@@ -49,14 +49,23 @@ namespace Auth.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDTO loginrequest)
+        public async Task<ActionResult<LoginResponseDTO>> Login(UserDTO loginrequest)
         {
-            var userToken= await _user.LoginUserAsync(loginrequest);
-            if (userToken is null)
+            var result= await _user.LoginUserAsync(loginrequest);
+            if (result is null)
             {
                 return BadRequest("Invalid username or password");
             }
-            return Ok(userToken);
+            return Ok(result);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<LoginResponseDTO>> RefreshToken(RefreshTokenRequestDTO tokenRequestDTO)
+        {
+            var result= await _user.RefreshTokensAsync(tokenRequestDTO);
+            if (result is null || result.AccessToken is null || result.RefreshToken is null)
+                return Unauthorized("Invalid refresh token");
+            return Ok(result);
         }
 
         [Authorize]

@@ -55,7 +55,33 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.String",
+        "Type": "Auth.Models.DTOs.LoginResponseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Auth.Controllers.AuthController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/Auth/refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tokenRequestDTO",
+        "Type": "Auth.Models.DTOs.RefreshTokenRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Auth.Models.DTOs.LoginResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

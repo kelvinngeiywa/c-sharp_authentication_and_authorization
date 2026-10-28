@@ -21,6 +21,15 @@ Content-Type: application/json
 }
 
 ###
+POST {{rootURL}}/api/Auth/refresh-token
+Content-Type: application/json
+{
+  "userId": "D7F6C83C-27C5-4E53-3C38-08DF3437A52B",
+  "refreshToken": "dyWvBHt/wHEaqbLV0B6Os4JJGb1PC7h0YzLORJ84CAo="
+}
+
+
+###
 GeT {{rootURL}}/api/Auth
 Accept: application/json
 Authorization: Bearer {{token}}
@@ -29,4 +38,4 @@ Authorization: Bearer {{token}}
 ###
 GET {{rootURL}}/api/Auth/admin-only
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2VsdmlubiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZDdmNmM4M2MtMjdjNS00ZTUzLTNjMzgtMDhkZjM0MzdhNTJiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3OTMxMzAxODcsImlzcyI6ImF1dGhlbnRpY2F0aW9uIiwiYXVkIjoiYXV0aGVudGljYXRpb25Vc2VycyJ9.wlOrLVCoWfZXIjV8o6ZS811DoMMUAKcADnZJ52fr-KxBGnoBTIl3tFvI1HoPZwpZm9WH2Jj1B6-BGZasK_iiOw
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2VsdmluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJiZDYzY2RkYi0zNGZiLTQwOTQtNDVhNS0wOGRmMzQxZTk5OGQiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIiLCJleHAiOjE3OTMxOTQ5MTMsImlzcyI6ImF1dGhlbnRpY2F0aW9uIiwiYXVkIjoiYXV0aGVudGljYXRpb25Vc2VycyJ9.UkmahDCVaODXBQzyGN8v18oPoy2u15OSz2Kl-dt-u_WRTVNi1yvVxvRUivkMVnL8iRftuXpc1ifx7puGs2rCag

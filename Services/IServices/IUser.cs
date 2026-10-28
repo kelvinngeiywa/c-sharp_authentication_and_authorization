@@ -7,6 +7,7 @@ namespace Auth.Services.IServices
     {
         //Task<User> RegisterUserAsync(User registerUser);
         Task<User> RegisterUserAsync(UserDTO registerUser);
-        Task<string> LoginUserAsync(UserDTO loginRequest);
+        Task<LoginResponseDTO> LoginUserAsync(UserDTO loginRequest);
+        Task<LoginResponseDTO> RefreshTokensAsync(RefreshTokenRequestDTO tokenRequestDTO);
     }
 }
